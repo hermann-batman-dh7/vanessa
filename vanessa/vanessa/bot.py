@@ -43,8 +43,8 @@ class Bot(DesktopBot):
         self.click()
         
         self.click
-        nome=input("bed")
-        self.paste(nome)
+
+        self.paste('hkgij')
         
         if not self.find_text( "commit", threshold=230, waiting_time=10000):
             self.not_found("commit")
