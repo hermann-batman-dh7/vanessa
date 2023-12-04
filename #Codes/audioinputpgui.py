@@ -29,7 +29,7 @@ def vanessa():
     if __name__ == "__main__":
         capture_and_repeat()
         
-        return()
+        return()        
     
 from tkinter import *
     
