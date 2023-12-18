@@ -1,4 +1,0 @@
-# automacoes
-
-automacoes em python
-
