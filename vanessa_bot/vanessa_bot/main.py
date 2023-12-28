@@ -1,7 +1,3 @@
-import pyttsx3
-import pyaudio
-import os
-import json
 import speech_recognition as sr
 from vanessa_bot import Bot
 import datahora
@@ -23,8 +19,8 @@ def speak(text):
 while True:
 
         text = ""
-        speak("O que deseja: ")
-        text = input("O que deseja: ")
+        speak("O que você deseja: ")
+        text = input("O que você deseja: ")
         print(text)
     
         if text == 'email':
@@ -56,6 +52,9 @@ while True:
         if keyword_present:
                 speak(datahora.SystemInfo.get_date())
                 
-        if text == 'clima':
+        clima = text     
+        keywords = ['clima', 'qual o clima de hoje', 'diga o clima', 'diz o clima de hoje'] 
+        keyword_present = any(keyword in horas for keyword in keywords)        
+        if keyword_present:
                 city = 'Lubango'
                 speak(datahora.SystemInfo.get_weather(city))
