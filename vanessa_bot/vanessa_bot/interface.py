@@ -25,6 +25,7 @@ botao = Button(janela, text="Clique Para iniciar uma conversa", command=mainact)
 botao.pack(pady=0)
 
 '''entrada_texto = Entry(janela, width=50)
+
 entrada_texto.pack(pady=20)
 
 # Botão para enviar a entrada
