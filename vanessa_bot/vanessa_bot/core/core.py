@@ -17,11 +17,11 @@ class SystemInfo:
         answer = 'Hoje é dia {} de {} de {}'.format(now.day, now.month, now.year)
         return answer
 
-    #@staticmethod
-    #def get_weather():
-        #now = weather.weather.now()
-        #answer = 'Hoje a temperatura e previão do tempo é'.format(now.temperature, now.clime)
-        #return answer
+    '''@staticmethod
+    def get_weather():
+        now = weather.weather.now()
+        answer = 'Hoje a temperatura e previão do tempo é'.format(now.temperature, now.clime)
+        return answer'''
 
 class a:
     def __init__(self):

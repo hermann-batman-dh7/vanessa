@@ -1,111 +1,157 @@
-import os
-from sympy import bottom_up
-from vosk import Model, KaldiRecognizer
 import pyttsx3
-import pyautogui
 import speech_recognition as sr
-import time
 from botcity.core import DesktopBot
+import pyautogui
+import time
 
-engine = pyttsx3.init()
+class Bot(DesktopBot):
+    @staticmethod
+    def recognize_speech():
+        recognizer = sr.Recognizer()
 
-voices = engine.getProperty('voices')
-engine.setProperty('voice', voices[-2].id)
+        with sr.Microphone() as source:
+            recognizer.adjust_for_ambient_noise(source)
+            audio = recognizer.listen(source)
+        try:
+            text = recognizer.recognize_google(audio, language='pt-BR')
+            return text
+        except sr.UnknownValueError:
+            print("Desculpe, não foi possível entender o áudio.")
+            Bot.speak("Desculpe, não foi possível entender o áudio.")
+            return ""
+        except sr.RequestError as e:
+            print(f"Não foi possível obter resultados do serviço de Reconhecimento de Fala do Google.")
+            return ""
 
-def speak(text):
-    engine.say(text)
-    engine.runAndWait()
-
-def recognize_speech():
-    recognizer = sr.Recognizer()
-
-    with sr.Microphone() as source:
-        print("Diga algo...")
-        speak("Diga algo...")
-        recognizer.adjust_for_ambient_noise(source)
-        audio = recognizer.listen(source)
-    try:
-        text = recognizer.recognize_google(audio, language='pt-BR')
-        return text
-    except sr.UnknownValueError:
-        print("Desculpe, não foi possível entender o áudio.")
-        return ""
-    except sr.RequestError as e:
-        print("Não foi possível obter resultados do serviço de Reconhecimento de Fala do Google.")
-        #speak("Não foi possível obter resultados do serviço de Reconhecimento de Fala do Google. Portanto, eu vou dar um erro. Beleza?")
-        return ""
-
-while True:
+    @staticmethod
     def speak(text):
         engine = pyttsx3.init()
         engine.say(text)
         engine.runAndWait()
-
-        # Reconhecimento de fala
-    texto_reconhecido = recognize_speech()
-
-    class Bot(DesktopBot):
-        def sendmail(self, execution):
-            texto_reconhecido = recognize_speech()
-            pyautogui.press('winleft')
-            time.sleep(2)
-            speak('abrindo o aplicativo de email')
-            pyautogui.typewrite('email')
-            time.sleep(2)
-            pyautogui.press('enter')
-
-            if not self.find("novo_email", matching=0.97, waiting_time=10000):
-                speak('iniciando a escrita de um novo email')
-                self.not_found("novo_email")
-            self.click()
         
-            speak('para quem deseja escrever o email?')
-            destino = texto_reconhecido
-            pyautogui.moveTo(1009,249)
-            pyautogui.typewrite(destino)
-            print(destino)
-                    
-            if not self.find("assunto", matching=0.97, waiting_time=10000):
-                self.not_found("assunto")
-            self.click()
-            self.paste('Hello, Im A bot')
-            
-            pyautogui.moveTo(959, 365)
-            pyautogui.click()
-            speak('o que gostaria que fosse dito?')
-            falacia=texto_reconhecido
-            pyautogui.typewrite(falacia)
-        
-            if not self.find("enviar", matching=0.97, waiting_time=10000):
-                speak('enviando o seu email')
-                self.not_found("enviar")
-                self.click()
-                
-    if __name__ == '__main__':
-        Bot().main()   
+    #condições(em definições) para a exucução de determinados processos
 
-        def not_found(self, label):
-            print(f"Element not found: {label}")               
-                
-'''            
-def spoty(self, execution=None):
-    pyautogui.press('winleft')
-    time.sleep(2)
-    speak('abrindo o aplicativo de spotify')
-    pyautogui.typewrite('spotify')
-    pyautogui.press('enter')
-   
-                   
-def notepad():
-    speak('abrindo o bloco de notas')
-    os.system('notepad.exe')
+    def sendmail(self, execution=None):
+        
+        Bot.speak("Abrindo o aplicativo de e-mail")
+        pyautogui.press('winleft')
+        time.sleep(2)
+        pyautogui.typewrite('email')
+        time.sleep(2)
+        pyautogui.press('enter')
+        
+        if not self.find("novo_mail", matching=0.97, waiting_time=10000):
+            self.not_found("novo_mail")
+        self.click()
+        
+        #e-mail_para
+        print("Por favor, diga para quem deseja mandar o mail")
+        Bot.speak("Por favor, diga para quem deseja mandar o mail")
+        variaveldetextos = Bot.recognize_speech()
+        Bot.speak("O destinatário foi definodo como:"+variaveldetextos)
+        pyautogui.moveTo(1061, 112)  
+        pyautogui.click()
+        pyautogui.typewrite(variaveldetextos)
+
+        #assunto
+        print("Qual é o assunto dessa conversa?")
+        Bot.speak("Qual é o assunto dessa conversa?")
+        variaveldetextos = Bot.recognize_speech()
+        Bot.speak("O seu assunto escolhido foi:"+variaveldetextos)
+        if not self.find("assunto", matching=0.97, waiting_time=10000):
+            self.not_found("assunto")
+        self.click()
+        pyautogui.typewrite(variaveldetextos)
+
+        #falacias
+        print("E o que gostaria que fosse dito?")
+        Bot.speak("E o que gostaria que fosse dito?")
+        variaveldetextos = Bot.recognize_speech()
+        Bot.speak("Você pediu que fosse escrito...:"+variaveldetextos)
+        pyautogui.moveTo(1025, 275)  
+        pyautogui.click()
+        pyautogui.typewrite(variaveldetextos)
+        
+        #confirmação
+        def confirm_email_send():
+            while True:
+                Bot.speak("Gostaria de confirmar o envio do seu e-mail?")
+                variaveldetextos = Bot.recognize_speech().lower()
+
+                if "sim" in variaveldetextos:
+                    pyautogui.moveTo(1285, 54)
+                    pyautogui.click()
+                    Bot.speak("E-mail enviado com sucesso")
+                    return  
+                elif "não" in variaveldetextos:
+                    pyautogui.moveTo(1188, 49)
+                    pyautogui.click()
+                    pyautogui.moveTo(594, 430)
+                    pyautogui.click()
+                    Bot.speak("E-mail descartado com sucesso")
+                    return
+                else:
+                    Bot.speak("Desculpe, não entendi sua resposta, repita por favor.")
+        confirm_email_send()
+  
+    def not_found(self, label):
+        print(f"Element not found: {label}")
+        
+    def spotify(self, execution=None):
+        
+        Bot.speak("Abrindo o Spotify")
+        pyautogui.press('winleft')
+        time.sleep(1)
+        pyautogui.typewrite('spotify')
+        time.sleep(2)
+        pyautogui.press('enter')
+        
+    def not_found(self, label):
+        print(f"Element not found: {label}")
+        
+    def explorador(self, execution=None):
+        
+        Bot.speak("Abrindo o Explorador de arquivos")
+        pyautogui.press('winleft')
+        time.sleep(2)
+        pyautogui.typewrite('explorador')
+        time.sleep(2)
+        pyautogui.press('enter')
+        
+    def not_found(self, label):
+        print(f"Element not found: {label}")
+        
     
-def word():
-    speak('abrindo o word')
-    os.system('word.exe')
+    def webbrow(self, execution=None):
+        
+        Bot.speak("O que gostaria de pesquisar?")
     
-def browser():
-    speak('abrindo o navegador')
-    url="www.google.com"
-    webbrowser.get().open(url)
-'''
+        # Captura a entrada de voz do usuário
+        textofsearch = Bot.recognize_speech().lower()
+        print(textofsearch)
+        
+        # Lista de palavras-chave que podem indicar uma intenção de pesquisa
+        keywords = ['pesquise', 'procure', 'encontre', 'busque', 'por']
+        
+        # Verifica se alguma das palavras-chave está presente na entrada de voz
+        keyword_present = any(keyword in textofsearch for keyword in keywords)
+        
+        Bot.speak("Encontrando resultados para {termo_pesquisa}...")
+        
+        if keyword_present:
+            import websearch
+            # Remove a palavra-chave identificada para obter o termo de pesquisa real
+            for keyword in keywords:
+                if keyword in textofsearch:
+                    termo_pesquisa = textofsearch.replace(keyword, "").strip()
+                    break
+            print(f'Termo de pesquisa: {termo_pesquisa}')
+            websearch.pesquisa(value=termo_pesquisa)
+        else:
+            Bot.speak("Desculpe, não entendi sua pesquisa. Por favor, repita.")
+        
+    def not_found(self, label):
+        print(f"Element not found: {label}")
+
+if __name__ == '__main__':
+    Bot.main()
