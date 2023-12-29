@@ -152,6 +152,19 @@ class Bot(DesktopBot):
         
     def not_found(self, label):
         print(f"Element not found: {label}")
+        
+    '''def qualquerapp(self, execution=None):
+        
+        from main import text
+        Bot.speak("Abrindo"+text)
+        pyautogui.press('winleft')
+        time.sleep(2)
+        pyautogui.typewrite(text)
+        time.sleep(2)
+        pyautogui.press('enter') 
+        
+    def not_found(self, label):
+        print(f"Element not found: {label}")'''
 
 if __name__ == '__main__':
     Bot.main()

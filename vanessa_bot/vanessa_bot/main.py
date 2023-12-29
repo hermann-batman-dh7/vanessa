@@ -36,24 +36,38 @@ def mainact():
             return ""
     
     text = ""
-    speak("O que você deseja: ")
-    text = input("O que você deseja: ")
+    #print("Como o posso ajudar hoje? ")
+    speak("Como o posso ajudar hoje? ")
+    text = input("Como o posso ajudar hoje? ")
     #text = recognize_speech()
     print(text)
+    
 
-    if text == 'email':
+    email = text     
+    keywords = ['e-mail'] 
+    keyword_present = any(keyword in email for keyword in keywords)    
+    if keyword_present:
         bot_instance = Bot()
         bot_instance.sendmail()
         
-    if text == 'spotify':
+    spotify = text     
+    keywords = ['spotify'] 
+    keyword_present = any(keyword in spotify for keyword in keywords)    
+    if keyword_present:
         bot_instance = Bot()
         bot_instance.spotify()
         
-    if text == 'explorador':
+    explorador = text     
+    keywords = ['explorador'] 
+    keyword_present = any(keyword in explorador for keyword in keywords)    
+    if keyword_present:
         bot_instance = Bot()
         bot_instance.explorador()
         
-    if text == 'google':
+    internetpesq = text     
+    keywords = ['pesquise', 'na internet', 'encontre na internet', 'internet', 'busque', 'google'] 
+    keyword_present = any(keyword in internetpesq for keyword in keywords)    
+    if keyword_present:
         bot_instance = Bot()
         bot_instance.webbrow()
         
@@ -65,16 +79,23 @@ def mainact():
                  
     data = text     
     keywords = ['data', 'qual a data de hoje', 'diga a data', 'diz a data de hoje'] 
-    keyword_present = any(keyword in horas for keyword in keywords)        
+    keyword_present = any(keyword in data for keyword in keywords)        
     if keyword_present:
             speak(datahora.SystemInfo.get_date())
             
     clima = text     
     keywords = ['clima', 'qual o clima de hoje', 'diga o clima', 'diz o clima de hoje'] 
-    keyword_present = any(keyword in horas for keyword in keywords)        
+    keyword_present = any(keyword in clima for keyword in keywords)        
     if keyword_present:
             city = 'Lubango'
             speak(datahora.SystemInfo.get_weather(city))
+            
+    '''qualquerapp = text     
+    keywords = [text] 
+    keyword_present = any(keyword in qualquerapp for keyword in keywords)        
+    if keyword_present:
+        bot_instance = Bot()
+        bot_instance.qualquerapp()'''
             
             
 if __name__ == "__main__":
