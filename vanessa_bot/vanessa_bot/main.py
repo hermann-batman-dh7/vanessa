@@ -1,11 +1,7 @@
 import speech_recognition as sr
 from vanessa_bot import Bot
 import datahora
-import os
-import pyaudio
 import pyttsx3
-import json
-
 
 def mainact():
     
@@ -37,8 +33,8 @@ def mainact():
     
     text = ""
     #print("Como o posso ajudar hoje? ")
-    speak("Como o posso ajudar hoje? ")
-    text = input("Como o posso ajudar hoje? ")
+    speak("Como o posso ajudar? ")
+    text = input("Como o posso ajudar? ")
     #text = recognize_speech()
     print(text)
     
