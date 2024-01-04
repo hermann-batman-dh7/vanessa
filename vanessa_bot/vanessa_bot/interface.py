@@ -1,44 +1,36 @@
 from tkinter import *
 from tkinter import ttk
-from main import callmainact
-
-def on_minimize():
-    #Intercepta a ação de minimizar e reativa o comportamento padrão de fechar a janela.
-    janela.destroy()
+from PIL import Image, ImageTk
+from main import callmainact  # Certifique-se de que a função callmainact esteja definida em main.py
 
 janela = Tk()
 janela.configure(bg='black')
 janela.title("vanessa")
+def on_minimize():
+    janela.destroy()
 
-largura_janela = 500
-altura_janela = 500
-
+largura_janela = 300
+altura_janela = 300
 posicao_x = (janela.winfo_screenwidth() // 2) - (largura_janela // 2)
 posicao_y = (janela.winfo_screenheight() // 2) - (altura_janela // 2)
-
 janela.geometry(f"{largura_janela}x{altura_janela}+{posicao_x}+{posicao_y}")
 janela.resizable(False, False)
-
-# Definir janela como sempre no topo
 janela.attributes("-topmost", True)
-
-# Intercepta o evento de minimizar
 janela.protocol("WM_DELETE_WINDOW", on_minimize)
 
-# Estilização com ttk
 style = ttk.Style()
 style.configure('TLabel', background='black', foreground='white', font=('Arial', 12))
 style.configure('TButton', background='#4CAF50', foreground='black', font=('Arial', 12), padding=10)
 
-# Carregando e exibindo a imagem
-imagem = PhotoImage(file="cover.png")
-label_imagem = ttk.Label(janela, image=imagem)
-label_imagem.pack(pady=20)
+imagem1 = PhotoImage(file="cover.png")
+label_imagem1 = ttk.Label(janela, image=imagem1)
+label_imagem1.pack(pady=10)
 
-texto_orientacao = ttk.Label(janela, text="Fale com a vanessa")
-texto_orientacao.pack(pady=10)
-
-botao = ttk.Button(janela, text="Clique Para iniciar uma conversa", command=callmainact)
-botao.pack(pady=0)
+imagem2 = Image.open("miq.png")
+imagem2 = imagem2.resize((50, 50))
+imagem2_tk = ImageTk.PhotoImage(imagem2)
+label_imagem2 = ttk.Label(janela, image=imagem2_tk)
+label_imagem2.place(x=45, y=200)
+label_imagem2.bind("<Button-1>", callmainact)
 
 janela.mainloop()

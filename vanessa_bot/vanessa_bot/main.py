@@ -88,12 +88,14 @@ def mainact():
     keywords = ['hora', 'que horas', 'diga a hora', 'diz as horas', 'que horas são'] 
     keyword_present = any(keyword in horas for keyword in keywords)    
     if keyword_present:
+            print(datahora.SystemInfo.get_time())
             speak(datahora.SystemInfo.get_time())
                 
     data = text     
     keywords = ['data', 'qual a data de hoje', 'diga a data', 'diz a data de hoje'] 
     keyword_present = any(keyword in data for keyword in keywords)        
     if keyword_present:
+            print(datahora.SystemInfo.get_date())
             speak(datahora.SystemInfo.get_date())
             
     clima = text     
@@ -101,6 +103,7 @@ def mainact():
     keyword_present = any(keyword in clima for keyword in keywords)        
     if keyword_present:
             city = 'Lubango'
+            print(datahora.SystemInfo.get_weather(city))
             speak(datahora.SystemInfo.get_weather(city))
             
     encerrarpc = text     
@@ -110,16 +113,16 @@ def mainact():
         bot_instance = Bot()
         bot_instance.encerrarpc()
         
-    ditado = text     
+    '''ditado = text     
     keywords = ['anote'] 
     keyword_present = any(keyword in ditado for keyword in keywords)    
     if keyword_present:
         bot_instance = Bot()
-        bot_instance.ditado()    
+        bot_instance.ditado()'''    
             
 if __name__ == "__main__":
     mainact()
     
-def callmainact():
+def callmainact(bind):
     while True:
         mainact()

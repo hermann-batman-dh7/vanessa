@@ -169,7 +169,7 @@ class Bot(DesktopBot):
     def not_found(self, label):
         print(f"Element not found: {label}")
         
-    def ditado():
+    '''def ditado():
         
         pyautogui.hotkey("winleft", "r") 
         time.sleep(2)
@@ -182,7 +182,7 @@ class Bot(DesktopBot):
         pyautogui.typewrite(variaveldetextos)
     
     def not_found(self, label):
-        print(f"Element not found: {label}")
+        print(f"Element not found: {label}")'''
 
 if __name__ == '__main__':
     Bot.main()
