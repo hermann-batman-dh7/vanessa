@@ -121,50 +121,42 @@ class Bot(DesktopBot):
     def not_found(self, label):
         print(f"Element not found: {label}")
         
-    
+    #Pesquisa sem enrolação
+    def pesqdir(valor):
+        valordireto = valor
+        print(valordireto)
+        import websearch
+        websearch.pesquisa(valordireto)
+        
+    def not_found(self, label):
+        print(f"Element not found: {label}")
+   
+    #Pesquisa com enrolação
     def webbrow(self, execution=None):
-        
+        import websearch
         Bot.speak("O que gostaria de pesquisar?")
-    
         # Captura a entrada de voz do usuário
-        textofsearch = Bot.recognize_speech().lower()
         print(textofsearch)
-        
-        # Lista de palavras-chave que podem indicar uma intenção de pesquisa
-        keywords = ['pesquise', 'procure', 'encontre', 'busque', 'por']
-        
-        # Verifica se alguma das palavras-chave está presente na entrada de voz
-        keyword_present = any(keyword in textofsearch for keyword in keywords)
-        
-        Bot.speak("Encontrando resultados para {termo_pesquisa}...")
-        
-        if keyword_present:
-            import websearch
-            # Remove a palavra-chave identificada para obter o termo de pesquisa real
-            for keyword in keywords:
-                if keyword in textofsearch:
-                    termo_pesquisa = textofsearch.replace(keyword, "").strip()
-                    break
-            print(f'Termo de pesquisa: {termo_pesquisa}')
-            websearch.pesquisa(value=termo_pesquisa)
-        else:
-            Bot.speak("Desculpe, não entendi sua pesquisa. Por favor, repita.")
+        textofsearch = input('escreva: ') 
+        #Bot.recognize_speech().lower()
+        Bot.speak("Encontrando resultados para"+textofsearch)
+        websearch.pesquisa(value=textofsearch)
         
     def not_found(self, label):
         print(f"Element not found: {label}")
         
-    '''def qualquerapp(self, execution=None):
+    def qualquerapp(valor):
         
-        from main import text
-        Bot.speak("Abrindo"+text)
+        print("Você quer abrir por:", valor)
+        Bot.speak("Abrindo"+valor)
         pyautogui.press('winleft')
         time.sleep(2)
-        pyautogui.typewrite(text)
+        pyautogui.typewrite(valor)
         time.sleep(2)
         pyautogui.press('enter') 
         
     def not_found(self, label):
-        print(f"Element not found: {label}")'''
+        print(f"Element not found: {label}")
 
 if __name__ == '__main__':
     Bot.main()

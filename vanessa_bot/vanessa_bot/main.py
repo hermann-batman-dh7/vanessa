@@ -38,7 +38,13 @@ def mainact():
     #text = recognize_speech()
     print(text)
     
-
+    qualquerapp = text.split()
+    if "abra" in qualquerapp and "o" in qualquerapp:
+        index_por = qualquerapp.index("o")
+        abraapp = ' '.join(qualquerapp[index_por + 1:])  #Pegando as palavras após "o"
+        bot_instance = Bot()
+        Bot.qualquerapp(valor=abraapp)
+    
     email = text     
     keywords = ['e-mail'] 
     keyword_present = any(keyword in email for keyword in keywords)    
@@ -60,19 +66,30 @@ def mainact():
         bot_instance = Bot()
         bot_instance.explorador()
         
+    #Pesquisa com enrolação
     internetpesq = text     
-    keywords = ['pesquise', 'na internet', 'encontre na internet', 'internet', 'busque', 'google'] 
+    keywords = ['quero fazer uma pesquisa', 'preciso que pesquises por algo'] 
     keyword_present = any(keyword in internetpesq for keyword in keywords)    
     if keyword_present:
         bot_instance = Bot()
         bot_instance.webbrow()
+        
+    #Pesquisa sem enrolação
+    palavras = text.split()
+    if "pesquise" in palavras and "por" in palavras:
+        index_por = palavras.index("por")
+        pesquisa = ' '.join(palavras[index_por + 1:])  #Pegando as palavras após "por"
+        print("Você quer pesquisar por:", pesquisa)
+        speak("Você quer pesquisar por: " + pesquisa) 
+        bot_instance = Bot()
+        Bot.pesqdir(valor=pesquisa)
         
     horas = text     
     keywords = ['hora', 'que horas', 'diga a hora', 'diz as horas', 'que horas são'] 
     keyword_present = any(keyword in horas for keyword in keywords)    
     if keyword_present:
             speak(datahora.SystemInfo.get_time())
-                 
+                
     data = text     
     keywords = ['data', 'qual a data de hoje', 'diga a data', 'diz a data de hoje'] 
     keyword_present = any(keyword in data for keyword in keywords)        
@@ -86,13 +103,9 @@ def mainact():
             city = 'Lubango'
             speak(datahora.SystemInfo.get_weather(city))
             
-    '''qualquerapp = text     
-    keywords = [text] 
-    keyword_present = any(keyword in qualquerapp for keyword in keywords)        
-    if keyword_present:
-        bot_instance = Bot()
-        bot_instance.qualquerapp()'''
-            
-            
 if __name__ == "__main__":
     mainact()
+    
+def callmainact():
+    while True:
+        mainact()

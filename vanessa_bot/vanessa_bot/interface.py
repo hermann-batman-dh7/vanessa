@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from main import callmainact
 from main import mainact
 
 def on_minimize():
@@ -10,8 +11,8 @@ janela = Tk()
 janela.configure(bg='black')
 janela.title("vanessa")
 
-largura_janela = 350
-altura_janela = 350
+largura_janela = 500
+altura_janela = 500
 
 posicao_x = (janela.winfo_screenwidth() // 2) - (largura_janela // 2)
 posicao_y = (janela.winfo_screenheight() // 2) - (altura_janela // 2)
@@ -38,13 +39,13 @@ label_imagem.pack(pady=20)
 texto_orientacao = ttk.Label(janela, text="Fale com a vanessa")
 texto_orientacao.pack(pady=10)
 
-botao = ttk.Button(janela, text="Clique Para iniciar uma conversa", command=mainact)
+botao = ttk.Button(janela, text="Clique Para iniciar uma conversa", command=callmainact)
 botao.pack(pady=0)
 
-'''entrada_texto = Entry(janela, width=50)
+entrada_texto = Entry(janela, width=50)
 entrada_texto.pack(pady=20)
 # Botão para enviar a entrada
-botao = Button(janela, text="Enviar", command=)
-botao.pack(pady=20)'''
+botao = Button(janela, text="Enviar", command=mainact)
+botao.pack(pady=20)
 
 janela.mainloop()
