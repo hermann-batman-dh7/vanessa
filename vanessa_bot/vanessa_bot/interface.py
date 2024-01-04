@@ -1,10 +1,9 @@
 from tkinter import *
 from tkinter import ttk
 from main import callmainact
-from main import mainact
 
 def on_minimize():
-    "Intercepta a ação de minimizar e reativa o comportamento padrão de fechar a janela."
+    #Intercepta a ação de minimizar e reativa o comportamento padrão de fechar a janela.
     janela.destroy()
 
 janela = Tk()
@@ -41,11 +40,5 @@ texto_orientacao.pack(pady=10)
 
 botao = ttk.Button(janela, text="Clique Para iniciar uma conversa", command=callmainact)
 botao.pack(pady=0)
-
-entrada_texto = Entry(janela, width=50)
-entrada_texto.pack(pady=20)
-# Botão para enviar a entrada
-botao = Button(janela, text="Enviar", command=mainact)
-botao.pack(pady=20)
 
 janela.mainloop()

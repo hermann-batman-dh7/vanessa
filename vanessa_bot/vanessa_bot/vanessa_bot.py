@@ -157,6 +157,32 @@ class Bot(DesktopBot):
         
     def not_found(self, label):
         print(f"Element not found: {label}")
+        
+    def encerrarpc():
+            
+        pyautogui.hotkey("winleft", "r")  
+        pyautogui.typewrite("shutdown /h")
+        pyautogui.sleep(2)  
+        pyautogui.press("enter")
+        pyautogui.sleep(5)
+
+    def not_found(self, label):
+        print(f"Element not found: {label}")
+        
+    def ditado():
+        
+        pyautogui.hotkey("winleft", "r") 
+        time.sleep(2)
+        pyautogui.typewrite("notepad")
+        pyautogui.press("enter")
+        print("O que gostaria de anotar?")
+        Bot.speak("O que gostaria de anotar?")
+        variaveldetextos = Bot.recognize_speech()
+        Bot.speak("Você pediu que fosse escrito...:"+variaveldetextos)  
+        pyautogui.typewrite(variaveldetextos)
+    
+    def not_found(self, label):
+        print(f"Element not found: {label}")
 
 if __name__ == '__main__':
     Bot.main()

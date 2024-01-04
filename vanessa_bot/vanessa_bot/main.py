@@ -103,6 +103,20 @@ def mainact():
             city = 'Lubango'
             speak(datahora.SystemInfo.get_weather(city))
             
+    encerrarpc = text     
+    keywords = ['encerrar'] 
+    keyword_present = any(keyword in encerrarpc for keyword in keywords)    
+    if keyword_present:
+        bot_instance = Bot()
+        bot_instance.encerrarpc()
+        
+    ditado = text     
+    keywords = ['anote'] 
+    keyword_present = any(keyword in ditado for keyword in keywords)    
+    if keyword_present:
+        bot_instance = Bot()
+        bot_instance.ditado()    
+            
 if __name__ == "__main__":
     mainact()
     
