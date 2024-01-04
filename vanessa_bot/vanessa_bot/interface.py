@@ -1,10 +1,9 @@
 from tkinter import *
 from tkinter import ttk
-
 from main import mainact
 
 def on_minimize():
-    """Intercepta a ação de minimizar e reativa o comportamento padrão de fechar a janela."""
+    "Intercepta a ação de minimizar e reativa o comportamento padrão de fechar a janela."
     janela.destroy()
 
 janela = Tk()
