@@ -1,33 +1,33 @@
-import tkinter as tk
-from tkinter import ttk
 import sounddevice as sd
-import numpy as np
+import speech_recognition as sr
 
-def update_scrollbar():
-    # Capture o áudio do microfone
-    audio_data = sd.rec(int(sampling_rate * duration), samplerate=sampling_rate, channels=1, dtype='float32')
+def capture_audio():
+    fs = 44100  # Taxa de amostragem
+    duration = 3  # Duração da gravação em segundos
+
+    audio_data = sd.rec(int(fs * duration), samplerate=fs, channels=1, dtype='int16')
     sd.wait()
-    
-    # Calcule a média do áudio capturado
-    audio_avg = np.mean(audio_data)
-    
-    # Atualize a posição da barra de rolagem com base no valor médio do áudio
-    scrollbar.set(audio_avg * 100)  # Multiplicando por 100 para tornar a diferença mais visível
-    root.after(10, update_scrollbar)  # Atualize a barra de rolagem a cada 10 milissegundos
 
-# Configurações de áudio
-sampling_rate = 44100  # Taxa de amostragem
-duration = 0.1  # Duração da gravação em segundos
+    return audio_data.flatten()
 
-# Configurações da GUI
-root = tk.Tk()
-root.title("Visualizador de Áudio")
+def recognize_speech(audio_data):
+    recognizer = sr.Recognizer()
+    audio_source = sr.AudioData(audio_data.tobytes(), 44100, 2)  # Corrigido aqui: 44100 para taxa de amostragem e 2 para largura da amostra (16 bits = 2 bytes)
 
-# Crie uma barra de rolagem horizontal (Scrollbar)
-scrollbar = ttk.Scale(root, from_=0, to=100, orient="horizontal", command=None)
-scrollbar.pack(pady=50)
+    try:
+        text = recognizer.recognize_google(audio_source)
+        return text.lower()
+    except sr.UnknownValueError:
+        return ""
 
-# Inicie a atualização da barra de rolagem com base no áudio capturado
-update_scrollbar()
+def main():
+    while True:
+        audio_data = capture_audio()
+        text = recognize_speech(audio_data)
+        
+        if "oi vanessa" in text:
+            print("Comando de ativação detectado!")
+            # Aqui, você pode adicionar a lógica para ativar sua assistente e processar outros comandos.
 
-root.mainloop()
+if __name__ == "__main__":
+    main()

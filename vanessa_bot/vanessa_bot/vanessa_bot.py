@@ -109,14 +109,33 @@ class Bot(DesktopBot):
     def not_found(self, label):
         print(f"Element not found: {label}")
         
-    def explorador(self, execution=None):
+    def exploradorpesq(self, execution=None):
         
-        Bot.speak("Abrindo o Explorador de arquivos")
-        pyautogui.press('winleft')
-        time.sleep(2)
-        pyautogui.typewrite('explorador')
-        time.sleep(2)
+        Bot.speak("O que está procurando?")
+        variaveldetextos = Bot.recognize_speech()
+        Bot.speak("Procurando em seu explorador de arquivos por..." +variaveldetextos)
+        pyautogui.hotkey("winleft", "r")  
+        pyautogui.typewrite("explorer")
+        time.sleep(1)
+        pyautogui.moveTo()
+        pyautogui.typewrite(variaveldetextos)
+        time.sleep(1)
         pyautogui.press('enter')
+        
+    def not_found(self, label):
+        print(f"Element not found: {label}")
+        
+    def winpesq(self, execution=None):
+        
+        print("O que gostaria de encontrar em seu computador?")
+        Bot.speak("O que gostaria de encontrar em seu computador?")
+        variaveldetextos = Bot.recognize_speech()
+        Bot.speak("Procurando por"+variaveldetextos)
+        pyautogui.press('winleft')
+        time.sleep(1)
+        pyautogui.typewrite(variaveldetextos)
+        time.sleep(1)
+        Bot.speak("resultados encontrados.")
         
     def not_found(self, label):
         print(f"Element not found: {label}")
@@ -136,8 +155,8 @@ class Bot(DesktopBot):
         import websearch
         Bot.speak("O que gostaria de pesquisar?")
         # Captura a entrada de voz do usuário
-        print(textofsearch)
-        textofsearch = input('escreva: ') 
+        textofsearch = input('escreva: ')
+        print(textofsearch) 
         #Bot.recognize_speech().lower()
         Bot.speak("Encontrando resultados para"+textofsearch)
         websearch.pesquisa(value=textofsearch)
@@ -148,7 +167,7 @@ class Bot(DesktopBot):
     def qualquerapp(valor):
         
         print("Você quer abrir por:", valor)
-        Bot.speak("Abrindo"+valor)
+        Bot.speak("Abrindo por"+valor)
         pyautogui.press('winleft')
         time.sleep(2)
         pyautogui.typewrite(valor)
@@ -158,7 +177,7 @@ class Bot(DesktopBot):
     def not_found(self, label):
         print(f"Element not found: {label}")
         
-    def encerrarpc():
+    def hibernarpc():
             
         pyautogui.hotkey("winleft", "r")  
         pyautogui.typewrite("shutdown /h")
@@ -169,10 +188,34 @@ class Bot(DesktopBot):
     def not_found(self, label):
         print(f"Element not found: {label}")
         
-    '''def ditado():
+    def encerarpc():
+        
+        def confirm_encerrarpc():
+            while True:
+                Bot.speak("Tem certeza que deseja encerrar o computador?... Os trabalhos não salvos poderão ser perdidos, ainda assim dejesa continuar?")
+                variaveldetextos = Bot.recognize_speech().lower()
+
+                if "sim" in variaveldetextos:
+                    Bot.speak("Desligando, computador")
+                    pyautogui.hotkey("alf", "f4")  
+                    pyautogui.sleep(1)  
+                    pyautogui.press("enter")
+                    return  
+                elif "não" in variaveldetextos:
+                    Bot.speak("Entendido, chame quando precisar")
+                    pyautogui.press("esc")
+                    return
+                else:
+                    Bot.speak("Desculpe, não entendi sua resposta, repita por favor.")
+        confirm_encerrarpc()
+        
+    def not_found(self, label):
+        print(f"Element not found: {label}")
+        
+    def ditado(nota):
         
         pyautogui.hotkey("winleft", "r") 
-        time.sleep(2)
+        time.sleep(1)
         pyautogui.typewrite("notepad")
         pyautogui.press("enter")
         print("O que gostaria de anotar?")
@@ -182,7 +225,7 @@ class Bot(DesktopBot):
         pyautogui.typewrite(variaveldetextos)
     
     def not_found(self, label):
-        print(f"Element not found: {label}")'''
+        print(f"Element not found: {label}")
 
 if __name__ == '__main__':
     Bot.main()

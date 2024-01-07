@@ -2,10 +2,10 @@ import speech_recognition as sr
 from vanessa_bot import Bot
 import datahora
 import pyttsx3
+import threading
 
 def mainact():
     
-    #função de speak da máquina
     engine = pyttsx3.init()
     voices = engine.getProperty('voices')
     engine.setProperty('voice', voices[-2].id)
@@ -32,25 +32,28 @@ def mainact():
             return ""
     
     text = ""
-    print("Como o posso ajudar hoje? ")
+    #print("Como o posso ajudar hoje? ")
     speak("Como o posso ajudar? ")
-    #text = input("Como o posso ajudar? ")
-    text = recognize_speech()
+    text = input("Como o posso ajudar? ")
+    #text = recognize_speech()
     print(text)
     
+    'Funcionalidades'
+    
+    #abrindo aplicativos e pesquisando dentro deles(os possiveis)
     qualquerapp = text.split()
     if "abra" in qualquerapp and "o" in qualquerapp:
         index_por = qualquerapp.index("o")
-        abraapp = ' '.join(qualquerapp[index_por + 1:])  #Pegando as palavras após "o"
+        abraapp = ' '.join(qualquerapp[index_por + 1:])
         bot_instance = Bot()
         Bot.qualquerapp(valor=abraapp)
-    
-    email = text     
-    keywords = ['e-mail'] 
-    keyword_present = any(keyword in email for keyword in keywords)    
-    if keyword_present:
+        
+    qualquerapp = text.split()
+    if "abra" in qualquerapp and "a" in qualquerapp:
+        index_por = qualquerapp.index("a")
+        abraapp = ' '.join(qualquerapp[index_por + 1:])
         bot_instance = Bot()
-        bot_instance.sendmail()
+        Bot.qualquerapp(valor=abraapp)
         
     spotify = text     
     keywords = ['spotify'] 
@@ -59,16 +62,31 @@ def mainact():
         bot_instance = Bot()
         bot_instance.spotify()
         
-    explorador = text     
+    exploradorpesq = text     
     keywords = ['explorador'] 
-    keyword_present = any(keyword in explorador for keyword in keywords)    
+    keyword_present = any(keyword in exploradorpesq for keyword in keywords)    
     if keyword_present:
         bot_instance = Bot()
-        bot_instance.explorador()
+        bot_instance.exploradorpesq()
         
+    ditado = text     
+    keywords = ['anote', 'aponte,', 'escreva'] 
+    keyword_present = any(keyword in ditado for keyword in keywords)    
+    if keyword_present:
+        bot_instance = Bot()
+        bot_instance.ditado()
+    
+    #abrindo o app de email e enviando
+    email = text     
+    keywords = ['e-mail'] 
+    keyword_present = any(keyword in email for keyword in keywords)    
+    if keyword_present:
+        bot_instance = Bot()
+        bot_instance.sendmail()
+         
     #Pesquisa com enrolação
     internetpesq = text     
-    keywords = ['quero fazer uma pesquisa', 'preciso que pesquises por algo'] 
+    keywords = ['pesquisa', 'resultado', 'resultados'] 
     keyword_present = any(keyword in internetpesq for keyword in keywords)    
     if keyword_present:
         bot_instance = Bot()
@@ -84,45 +102,70 @@ def mainact():
         bot_instance = Bot()
         Bot.pesqdir(valor=pesquisa)
         
+    palavras = text.split()
+    if "encontre" in palavras and "na" in palavras:
+        index_por = palavras.index("na")
+        pesquisa = ' '.join(palavras[index_por + 1:])  #Pegando as palavras após "por"
+        print("Você quer pesquisar por:", pesquisa)
+        speak("Você quer pesquisar por: " + pesquisa) 
+        bot_instance = Bot()
+        Bot.pesqdir(valor=pesquisa)
+      
+    #Informações diárias  
     horas = text     
-    keywords = ['hora', 'que horas', 'diga a hora', 'diz as horas', 'que horas são'] 
+    keywords = ['hora', 'horas'] 
     keyword_present = any(keyword in horas for keyword in keywords)    
     if keyword_present:
             print(datahora.SystemInfo.get_time())
             speak(datahora.SystemInfo.get_time())
                 
     data = text     
-    keywords = ['data', 'qual a data de hoje', 'diga a data', 'diz a data de hoje'] 
+    keywords = ['data'] 
     keyword_present = any(keyword in data for keyword in keywords)        
     if keyword_present:
             print(datahora.SystemInfo.get_date())
             speak(datahora.SystemInfo.get_date())
             
     clima = text     
-    keywords = ['clima', 'qual o clima de hoje', 'diga o clima', 'diz o clima de hoje'] 
+    keywords = ['clima', 'temperatura'] 
     keyword_present = any(keyword in clima for keyword in keywords)        
     if keyword_present:
             city = 'Lubango'
             print(datahora.SystemInfo.get_weather(city))
             speak(datahora.SystemInfo.get_weather(city))
-            
-    encerrarpc = text     
-    keywords = ['encerrar'] 
-    keyword_present = any(keyword in encerrarpc for keyword in keywords)    
+    
+    #Automações no computador        
+    hibernarpc = text     
+    keywords = ['hiberne', 'supenda',  'suspende'] 
+    keyword_present = any(keyword in hibernarpc for keyword in keywords)    
     if keyword_present:
         bot_instance = Bot()
-        bot_instance.encerrarpc()
+        bot_instance.hibernarpc()
         
-    '''ditado = text     
-    keywords = ['anote'] 
-    keyword_present = any(keyword in ditado for keyword in keywords)    
+    encerarpc = text     
+    keywords = ['desligue', 'encerre', 'mate'] 
+    keyword_present = any(keyword in encerarpc for keyword in keywords)    
     if keyword_present:
         bot_instance = Bot()
-        bot_instance.ditado()'''    
+        bot_instance.encerarpc()
+        
+    winpesq = text     
+    keywords = ['pesquise no computador', 'ache'] 
+    keyword_present = any(keyword in winpesq for keyword in keywords)    
+    if keyword_present:
+        bot_instance = Bot()
+        bot_instance.winpesq()    
             
 if __name__ == "__main__":
     mainact()
     
+    thread = threading.Thread(target=mainact)
+    thread.start()
+    while True:
+            pass
+    
 def callmainact(bind):
     while True:
         mainact()
+        
+
