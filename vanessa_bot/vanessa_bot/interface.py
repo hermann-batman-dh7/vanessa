@@ -1,17 +1,24 @@
 from tkinter import *
 from tkinter import ttk
 from PIL import Image, ImageTk
-from main import callmainact
+from main import callmainact  # Certifique-se de que a função callmainact existe em main.py
 
+def enviar_para_terminal(event=None):
+    texto = entrada_texto.get()  # Obter o texto inserido na Entry
+    print(texto)
+    # Aqui você pode adicionar qualquer outra lógica ou chamar a função callmainact com o texto
+
+# Configuração da janela principal
 janela = Tk()
-janela.configure(bg='black')
-janela.title("vanessa")
+janela.configure(bg='#282a36')
+janela.title("Vanessa")
+
 def on_minimize():
     janela.destroy()
 
-'propriedades da janela'
-largura_janela = 300
-altura_janela = 300
+# Propriedades da janela
+largura_janela = 400
+altura_janela = 350
 posicao_x = (janela.winfo_screenwidth() // 2) - (largura_janela // 2)
 posicao_y = (janela.winfo_screenheight() // 2) - (altura_janela // 2)
 janela.geometry(f"{largura_janela}x{altura_janela}+{posicao_x}+{posicao_y}")
@@ -19,22 +26,35 @@ janela.resizable(False, False)
 janela.attributes("-topmost", True)
 janela.protocol("WM_DELETE_WINDOW", on_minimize)
 
-'estilização e estética'
+# Estilização e estética
 style = ttk.Style()
 style.configure('TLabel', background='black', foreground='white', font=('Arial', 12))
 style.configure('TButton', background='#4CAF50', foreground='black', font=('Arial', 12), padding=10)
 
-'Inserção de elementos'
-#imagens
-avatar = PhotoImage(file="cover.png")
-label_avatar = ttk.Label(janela, image=avatar)
-label_avatar.pack(pady=10)
+# Avatar
+avatar_image = PhotoImage(file="cover.png")
+label_avatar = ttk.Label(janela, image=avatar_image)
+label_avatar.pack(pady=20)
 
-micro = Image.open("miq.png")
-micro = micro.resize((50, 50))
-micro_tk = ImageTk.PhotoImage(micro)
+# Microfone
+micro_image = Image.open("miq.png")
+micro_image = micro_image.resize((50, 50))
+micro_tk = ImageTk.PhotoImage(micro_image)
 label_micro = ttk.Label(janela, image=micro_tk)
-label_micro.place(x=45, y=200)
-label_micro.bind("<Button-1>", callmainact)
+label_micro.place(x=170, y=215)
+
+# Vinculando a função callmainact ao clique do botão do microfone
+label_micro.bind("<Button-1>", lambda e: callmainact())
+
+# Adicionando a Entry para inserção de texto
+entrada_texto = ttk.Entry(janela, width=40)
+entrada_texto.pack(pady=10)
+entrada_texto.place(x=85, y=280)
+# Vincular a função enviar_para_terminal ao evento 'Enter' na Entry
+entrada_texto.bind("<Return>", enviar_para_terminal)
+
+# Botão para enviar o texto inserido para o terminal
+#botao_enviar = ttk.Button(janela, text="Enviar", command=enviar_para_terminal)
+#botao_enviar.pack(pady=10)
 
 janela.mainloop()
