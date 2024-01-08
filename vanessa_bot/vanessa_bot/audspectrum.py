@@ -7,7 +7,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 # Configurações de áudio
 RATE = 44100  # Taxa de amostragem
-DURATION = 0.5  # Duração de cada leitura em segundos
+DURATION = 20  # Duração de cada leitura em segundos
 
 def capturar_audio(indata, frames, time, status):
     global line
