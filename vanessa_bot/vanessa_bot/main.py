@@ -32,7 +32,7 @@ def mainact():
             return ""
     
     text = ""
-    #print("Como o posso ajudar hoje? ")
+    #print("Como o posso ajudar? ")
     speak("Como o posso ajudar? ")
     text = input("Como o posso ajudar? ")
     #text = recognize_speech()

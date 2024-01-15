@@ -1,12 +1,11 @@
 from tkinter import *
 from tkinter import ttk
 from PIL import Image, ImageTk
-from main import callmainact  # Certifique-se de que a função callmainact existe em main.py
+from main import callmainact  
 
 def enviar_para_terminal(event=None):
-    texto = entrada_texto.get()  # Obter o texto inserido na Entry
+    texto = entrada_texto.get()  
     print(texto)
-    # Aqui você pode adicionar qualquer outra lógica ou chamar a função callmainact com o texto
 
 # Configuração da janela principal
 janela = Tk()
