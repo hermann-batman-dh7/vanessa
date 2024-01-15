@@ -1,41 +1,20 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import sounddevice as sd
-from tkinter import *
-from tkinter import ttk
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-# Configurações de áudio
-RATE = 44100  # Taxa de amostragem
-DURATION = 20  # Duração de cada leitura em segundos
+# Gerando um sinal de exemplo
+fs = 1000  # Frequência de amostragem (Hz)
+t = np.linspace(0, 1, fs, endpoint=False)  # Vetor de tempo de 1 segundo
+f = 5  # Frequência do sinal (Hz)
+signal = np.sin(2 * np.pi * f * t)  # Sinal senoidal
 
-def capturar_audio(indata, frames, time, status):
-    global line
-    line.set_ydata(indata)
-    plt.draw()
-    root.after(10, capturar_audio, indata, frames, time, status)
+# Criando o espectrograma
+plt.specgram(signal, Fs=fs, cmap='viridis')
 
-def iniciar_visualizacao():
-    global line, root
-    fig, ax = plt.subplots()
-    x = np.arange(0, RATE * DURATION)
-    y = np.zeros(RATE * DURATION)
-    line, = ax.plot(x, y)
-    ax.set_ylim(-32768, 32767)  # Defina a amplitude máxima e mínima
-    ax.set_title('Visualizador de Áudio em Tempo Real')
-    ax.set_xlabel('Amostras')
-    ax.set_ylabel('Amplitude')
-    
-    plt.ion()  # Modo interativo
-    plt.show()
+# Personalizando o gráfico (opcional)
+plt.title('Espectrograma do Sinal')
+plt.xlabel('Tempo [s]')
+plt.ylabel('Frequência [Hz]')
+plt.colorbar(label='Intensidade dB')
 
-    with sd.InputStream(callback=capturar_audio, channels=1, samplerate=RATE):
-        root.mainloop()
-
-root = Tk()
-root.title("Visualizador de Áudio em Tempo Real")
-
-btn_iniciar = ttk.Button(root, text="Iniciar Visualização", command=iniciar_visualizacao)
-btn_iniciar.pack(pady=20)
-
-root.mainloop()
+# Mostrando o gráfico
+plt.show()
