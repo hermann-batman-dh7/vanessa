@@ -114,10 +114,9 @@ class Bot(DesktopBot):
         Bot.speak("O que está procurando?")
         variaveldetextos = Bot.recognize_speech()
         Bot.speak("Procurando em seu explorador de arquivos por..." +variaveldetextos)
-        pyautogui.hotkey("winleft", "r")  
-        pyautogui.typewrite("explorer")
+        pyautogui.hotkey("winleft", "e")  
         time.sleep(1)
-        pyautogui.moveTo()
+        pyautogui.moveTo(1273, 105)
         pyautogui.typewrite(variaveldetextos)
         time.sleep(1)
         pyautogui.press('enter')
@@ -223,6 +222,22 @@ class Bot(DesktopBot):
         variaveldetextos = Bot.recognize_speech()
         Bot.speak("Você pediu que fosse escrito...:"+variaveldetextos)  
         pyautogui.typewrite(variaveldetextos)
+    
+    def not_found(self, label):
+        print(f"Element not found: {label}")
+        
+    def notifs(self, execution=None):
+        
+        Bot.speak("Verificando as suas notificações...")
+        pyautogui.hotkey('win', 'n')
+    
+    def not_found(self, label):
+        print(f"Element not found: {label}")
+        
+    def notifs(self, execution=None):
+        
+        Bot.speak("Entendido...")
+        pyautogui.hotkey('win', 'a')
     
     def not_found(self, label):
         print(f"Element not found: {label}")

@@ -154,7 +154,22 @@ def mainact():
     keyword_present = any(keyword in winpesq for keyword in keywords)    
     if keyword_present:
         bot_instance = Bot()
-        bot_instance.winpesq()    
+        bot_instance.winpesq()
+        
+    notifs = text
+    keywords = ['notificação', 'notificações'] 
+    keyword_present = any(keyword in notifs for keyword in keywords)    
+    if keyword_present:
+        bot_instance = Bot()
+        bot_instance.notifs()
+        
+    controlpanel = text
+    keywords = ['painel de controle'] 
+    keyword_present = any(keyword in controlpanel for keyword in keywords)    
+    if keyword_present:
+        bot_instance = Bot()
+        bot_instance.controlpanel()
+        
             
 if __name__ == "__main__":
     mainact()
